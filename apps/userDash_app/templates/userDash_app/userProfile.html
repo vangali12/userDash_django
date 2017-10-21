@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<a href="/dashboard">Dashboard</a>
+		{% if request.session.currentUser == user.id %}
+			<a href="/users/edit">Edit Page</a>
+		{% endif %}
+		<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+		<p>Registered at: {{ user.created_at }}</p>
+		<p>User ID: {{ user.id }}</p>
+		<p>Email Address: {{ user.email }}</p>
+		<p>Description: {{ user.desc }}</p>
+		<h3>Leave a message for {{ user.first_name }}</h3>
+		<form action='/createPost/{{ user.id }}' method='post'>
+		{% csrf_token %}
+			<textarea name="content" rows="5" cols="100" placeholder="Limit 1000 characters"></textarea>
+			<p><input type="submit" name="submit" value="Post"></p>
+		</form>
+		{% for post in posts %}
+			<p>At {{ post.created_at }} <a href="/users/show/{{ post.author.id }}">{{ post.author.first_name }} {{ post.author.last_name }}</a> wrote:</p>
+			<p>{{ post.content }}</p>
+			{% for comment in comments %}
+				{% if comment.post.id == post.id %}
+					<p>At {{ comment.created_at }} <a href="/users/show/{{ comment.author.id }}">{{ comment.author.first_name }} {{ comment.author.last_name }}</a> replied:</p>
+					<p>{{ comment.content }}</p>
+				{% endif %}
+			{% endfor %}
+			<p><form action='/createComment/{{ user.id }}/{{ post.id }}' method='post'>
+			{% csrf_token %}
+				<input type="hidden" name="user" value={{ user.id }}>
+				<textarea name="content" rows="3" cols="50" placeholder="Limit 1000 characters"></textarea>
+				<p><input type="submit" name="submit" value="Comment"></p>
+			</form></p>
+		{% endfor %}
+	</div>
+</body>
+</html>

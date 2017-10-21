@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>This is the login page</h1>
+		<a href="/">Home</a>
+		<a href="/login">Sign In</a>
+		<h3>Sign in</h3>
+		{% if messages %}
+		<ul class="messages">
+			{% for message in messages %}
+				<li>{{ message }}</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+		<form action='/loginUser' method='post'>
+		{% csrf_token %}
+			<p>Email Address:<input type="text" name="email"></p>
+			<p>Password:<input type="password" name="password"></p>
+			<input type="submit" name="submit" value="Sign In">
+		</form>
+		<a href="/register">Don't have an account? Register</a>
+	</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h2>Edit User {{ user.id }}</h2>
+		<div class="row">
+		<div class="col-md-6">
+			<form action='/update/{{ user.id }}' method='post'>
+			{% csrf_token %}
+				<input type="hidden" name="status" value="{{ user.status }}">
+				<p>Email Address:</p>
+				<p><input type="text" name="email" value="{{ user.email }}"></p>
+				<p>First Name:</p>
+				<p><input type="text" name="first_name" value="{{ user.first_name }}"></p>
+				<p>Last Name:</p>
+				<p><input type="text" name="last_name" value="{{ user.last_name }}"></p>
+				<input type="submit" name="submit" value="Save">
+			</form>
+		</div>
+		<div class="col-md-6">
+			<form action='/updatePW/{{ user.id }}', method='post'>
+			{% csrf_token %}
+				<p>Password:</p>
+				<p><input type="password" name="password"></p>
+				<p>Password Confirmation:</p>
+				<p><input type="password" name="confPassword"></p>
+				<input type="submit" name="submit" value="Update Password">
+			</form>
+		</div>
+		</div>
+		<form action='/update/{{ user.id }}' method='post'>
+		{% csrf_token %}
+			<input type="hidden" name="email" value="{{ user.email }}">
+			<input type="hidden" name="first_name" value="{{ user.first_name }}">
+			<input type="hidden" name="last_name" value="{{ user.last_name }}">
+			<input type="hidden" name="status" value="{{ user.status }}">
+			<p>Edit Description:</p>
+			<textarea rows="4" cols="50" name="desc" placeholder="Limit 1000 characters"></textarea>
+			<p><input type="submit" name="submit"></p>
+		</form>
+	</div>
+</body>
+</html>

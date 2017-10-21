@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>This is the admin dashboard page</h1>
+		<a href="/dashboard/admin">Dashboard</a>
+		<a href="/users/show/{{ request.session.currentUser }}">Profile</a>
+		<a href="/logout">Logout</a>
+		<form action='/users/new' method='post'>
+		{% csrf_token %}
+			<input type="submit" name="submit" value="Add New">
+		</form>
+		<table>
+			<thead>
+				<th>ID</th>
+				<th>Name</th>
+				<th>email</th>
+				<th>create_at</th>
+				<th>user_level</th>
+				<th>actions</th>
+			</thead>
+			{% for user in users %}
+			<tr>
+				<td>{{ user.id }}</td>
+				<td><a href="/users/show/{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></td>
+				<td>{{ user.email }}</td>
+				<td>{{ user.created_at }}</td>
+				<td>{{ user.status }}</td>
+				<td><a href="/users/edit/{{ user.id }}">edit</a> | <a href="/users/remove/{{ user.id }}">remove</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</body>
+</html>
